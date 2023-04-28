@@ -1,7 +1,7 @@
-import {Card} from "@mui/material";
+import {Button, Card} from "@mui/material";
 import {css} from "@emotion/css"
 
-const Tile = ({content}) => {
+const Tile = ({data, clickyClick}) => {
 
     const randomColour = () => {
         let letters = '0123456789ABCDEF';
@@ -23,11 +23,17 @@ const Tile = ({content}) => {
       align-items: center;
     `
 
+    // have managed to make this do something but 1. Don't really understand why I needed to return the
+    // function call and 2. Need to stop the app from re-rendering every time.
+    const handleClick = () => {
+        return clickyClick(data);
+    }
+
 
     return (
         <>
-            <div className={tileCSS}>
-                <p>{content}</p>
+            <div onClick={handleClick} className={tileCSS}>
+                <p>{data.text}</p>
             </div>
         </>
     )
