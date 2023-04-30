@@ -1,12 +1,10 @@
-import {Button, Card} from "@mui/material";
 import {css} from "@emotion/css"
 
-const Tile = ({data, clickyClick}) => {
+const Tile = ({data, clickyClick, flipTile}) => {
 
     let tileCSS = css`
       height: 100px;
       width: 100px;
-      //in future implement something to get nicer colours / themed colours
       background-color: ${data.colour};
       border-radius: 5px;
       display: flex;
@@ -15,13 +13,17 @@ const Tile = ({data, clickyClick}) => {
     `
 
     const handleClick = () => {
-        clickyClick(data);
+        if (!data.guessed) {
+            clickyClick(data);
+            flipTile(data);
+        }
     }
 
     return (
         <>
             <div onClick={handleClick} className={tileCSS}>
-                <p>{data.text}</p>
+                {data.flipped &&
+                <p>{data.text}</p>}
             </div>
         </>
     )

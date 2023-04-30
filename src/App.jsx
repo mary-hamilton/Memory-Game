@@ -1,9 +1,9 @@
-import Tile from "./Tile";
+
 import TileGrid from "./TileGrid";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {Button} from "@mui/material";
 
 const App = () => {
-
     const randomColour = () => {
         let letters = '0123456789ABCDEF';
         let colour = '#';
@@ -13,24 +13,26 @@ const App = () => {
         return colour;
     }
 
-    const staticArray = ['Egg', 'Rice', 'Cream', 'Honey', 'Salmon', 'Steve']
+    const staticArray = ['Egg', 'Rice', 'Cream', 'Honey', 'Salmon', 'Steve', 'Fish', 'Different Egg']
+    const [ gameArray, setGameArray ] = useState([])
     const makeTileData = (text, id) => {
-        return { text, id }
+        return { text, id, flipped: false, guessed: false, colour: randomColour() }
+        }
+        const setUpGame = (array) => {
+            const doubleArray = [...array, ...array];
+            const idArray = doubleArray.map((item, i) => makeTileData(item, i));
+            setGameArray(idArray.sort((a, b) => 0.5 - Math.random()));
         }
 
-    const newStaticArray = staticArray.map((item, i) => makeTileData(item, i+1));
-
-    const doubleArray = [...newStaticArray, ...newStaticArray];
-
-    const colouredArray = doubleArray.map((data) => ({...data, colour: randomColour()}))
-
-    const randomArray = colouredArray.sort((a, b) => 0.5 - Math.random())
-
+        useEffect(
+            () => setUpGame(staticArray), []
+        )
 
     return (
         <>
             <h1>My Lovely Game</h1>
-            <TileGrid array={randomArray}/>
+            <TileGrid array={gameArray}/>
+            <Button onClick={() => setUpGame(staticArray)} variant="outline">Reset</Button>
         </>
     );
 };
