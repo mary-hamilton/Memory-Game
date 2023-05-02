@@ -23,7 +23,7 @@ const Tile = ({data, clickyClick, flipTile}) => {
         <>
             <div onClick={handleClick} className={tileCSS}>
                 {data.flipped &&
-                <p>{data.text}</p>}
+                    <p>{data.text}</p>}
             </div>
         </>
     )

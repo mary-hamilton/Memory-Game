@@ -1,21 +1,30 @@
 import Tile from "./Tile";
 import {Grid} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const TileGrid = ({array}) => {
 
-    const [ firstGuess, setFirstGuess ] = useState("");
-    const [ secondGuess, setSecondGuess ] = useState("");
+    useEffect(() => {
+        console.log('Component rendered or updated');
+        setWorkingArray(array);
+    });
+
+    const [workingArray, setWorkingArray] = useState([]);
+    const [firstGuess, setFirstGuess] = useState("");
+    const [secondGuess, setSecondGuess] = useState("");
+
+
 
     const flipTile = (tile) => {
-        const thisTile = array.find((t) => t.id === tile.id);
+        const thisTile = workingArray.find((t) => t.id === tile.id);
         return thisTile.flipped = !thisTile.flipped;
     }
     const flipAll = () => {
-        array.map((tile) => {
-            if (tile.guessed === false) {
+        workingArray.map((tile) => {
+            if (!tile.guessed) {
                 return tile.flipped = false;
-            }})
+            }
+        })
     }
     const clickyClick = (data) => {
 
@@ -34,25 +43,25 @@ const TileGrid = ({array}) => {
         }
     }
     if ((firstGuess.text === secondGuess.text) && (firstGuess.id !== secondGuess.id)) {
-        const guessedTiles = array.filter((tile) => tile.text === firstGuess.text);
+        const guessedTiles = workingArray.filter((tile) => tile.text === firstGuess.text);
         guessedTiles.forEach((tile) => tile.guessed = true);
         setFirstGuess("")
         setSecondGuess("");
     }
 
-        return (
-            <>
-                <Grid container>
-                    {array.map((data, i) =>
-                        <Grid key={i} item>
-                            <Tile data={data}
-                                  clickyClick={clickyClick}
-                                  flipTile={flipTile}
-                                  />
-                        </Grid>)}
-                </Grid>
-            </>
-        )
+    return (
+        <>
+            <Grid container>
+                {workingArray.map((data, i) =>
+                    <Grid key={i} item>
+                        <Tile data={data}
+                              clickyClick={clickyClick}
+                              flipTile={flipTile}
+                        />
+                    </Grid>)}
+            </Grid>
+        </>
+    )
 }
 
 export default TileGrid;
