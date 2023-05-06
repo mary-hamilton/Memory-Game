@@ -16,8 +16,8 @@ const Tile = ({data, handleClick}) => {
     return (
         <>
             <div className={tileCSS}
-                onClick={() => handleClick(data.id)}>
-                {data.flipped &&
+                onClick={data.guessed ? undefined : () => handleClick(data.id)}>
+                {(data.flipped || data.guessed) &&
                     <p>{data.text}</p>}
             </div>
         </>

@@ -26,6 +26,9 @@ const App = () => {
     }
 
     const [gameArray, setGameArray] = useState([]);
+    const [guessArray, setGuessArray] = useState([]);
+    const [workingArray, setWorkingArray] = useState([]);
+    const [score, setScore] = useState(0);
 
     useEffect(() => setGameArray(setUpGame(staticArray)), [])
 
@@ -36,7 +39,16 @@ const App = () => {
     return (
         <>
             <h1>My Lovely Game</h1>
-            <TileGrid array={gameArray}/>
+            <TileGrid
+                array={gameArray}
+                workingArray={workingArray}
+                setWorkingArray={setWorkingArray}
+                guessArray={guessArray}
+                setGuessArray={setGuessArray}
+                score={score}
+                setScore={setScore}
+            />
+            <p>{score}</p>
             <Button
                 onClick={handleClick}
                 variant="outline"
