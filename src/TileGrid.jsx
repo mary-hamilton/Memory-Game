@@ -5,6 +5,7 @@ import {useEffect} from "react";
 const TileGrid = ({array, setGuessArray, setWorkingArray, setScore, guessArray, workingArray, score}) => {
 
     useEffect(() => setWorkingArray([...array]), [array])
+    useEffect(() => setScore((guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) ? s => s + 1 : s => s),[guessArray])
     const handleClick = (cardID) => {
         setWorkingArray(workingArray.map((card) => {
             if (card.id === cardID) {
@@ -12,13 +13,12 @@ const TileGrid = ({array, setGuessArray, setWorkingArray, setScore, guessArray, 
                 return {
                     ...card,
                     flipped: !card.flipped
-                };
+                }
             }
-            return guessArray.length === 2 ? {...card, flipped: false} : card;
+            return guessArray.length === 2 ? {...card, flipped: false} : card
         }));
         setWorkingArray(wa => wa.map((card) => {
                 if ((guessArray.length === 2) && (guessArray[0].text === guessArray[1].text)) {
-                    setScore(score + 1)
                     if ((card.id === guessArray[0].id) || (card.id === guessArray[1].id)) {
                         return {
                             ...card,
@@ -26,7 +26,7 @@ const TileGrid = ({array, setGuessArray, setWorkingArray, setScore, guessArray, 
                         }
                     }
                 }
-            return card;
+            return card
         }))
     }
 

@@ -20,6 +20,7 @@ const App = () => {
     const staticArray = ['Egg', 'Rice', 'Cream', 'Honey', 'Salmon', 'Steve', 'Fish', 'Different Egg'];
 
     const setUpGame = (array) => {
+        setScore(0);
         const doubleArray = [...array, ...array];
         const idArray = doubleArray.map((item, i) => makeTileData(item, i));
         return idArray.sort((a, b) => 0.5 - Math.random());
