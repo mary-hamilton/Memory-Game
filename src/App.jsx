@@ -1,5 +1,5 @@
 import TileGrid from "./TileGrid";
-import {useEffect, useLayoutEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 
 const App = () => {
@@ -20,13 +20,14 @@ const App = () => {
     const staticArray = ['Egg', 'Rice', 'Cream', 'Honey', 'Salmon', 'Steve', 'Fish', 'Different Egg'];
 
     const setUpGame = (array) => {
+        setGuessArray([]);
         setScore(0);
         const doubleArray = [...array, ...array];
         const idArray = doubleArray.map((item, i) => makeTileData(item, i));
         return idArray.sort((a, b) => 0.5 - Math.random());
     }
 
-    const [gameArray, setGameArray] = useState([]);
+    const [gameArray, setGameArray] = useState([])
     const [guessArray, setGuessArray] = useState([]);
     const [workingArray, setWorkingArray] = useState([]);
     const [score, setScore] = useState(0);
@@ -34,7 +35,7 @@ const App = () => {
     useEffect(() => setGameArray(setUpGame(staticArray)), [])
 
     const handleClick = () => {
-        setGameArray(setUpGame(staticArray));
+       setGameArray(setUpGame(staticArray));
     }
 
     return (
@@ -46,7 +47,6 @@ const App = () => {
                 setWorkingArray={setWorkingArray}
                 guessArray={guessArray}
                 setGuessArray={setGuessArray}
-                score={score}
                 setScore={setScore}
             />
             <p>{score}</p>
