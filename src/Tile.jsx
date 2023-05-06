@@ -1,6 +1,7 @@
 import {css} from "@emotion/css"
+import {useState} from "react";
 
-const Tile = ({data, clickyClick, flipTile}) => {
+const Tile = ({data, handleClick}) => {
 
     let tileCSS = css`
       height: 100px;
@@ -12,16 +13,10 @@ const Tile = ({data, clickyClick, flipTile}) => {
       align-items: center;
     `
 
-    const handleClick = () => {
-        if (!data.guessed) {
-            clickyClick(data);
-            flipTile(data);
-        }
-    }
-
     return (
         <>
-            <div onClick={handleClick} className={tileCSS}>
+            <div className={tileCSS}
+                onClick={() => handleClick(data.id)}>
                 {data.flipped &&
                     <p>{data.text}</p>}
             </div>

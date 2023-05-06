@@ -4,59 +4,40 @@ import {useEffect, useState} from "react";
 
 const TileGrid = ({array}) => {
 
-    useEffect(() => {
-        console.log('Component rendered or updated');
-        setWorkingArray(array);
-    });
+    const [guessArray, setGuessArray] = useState([]);
+    const [workingArray, setWorkingArray] = useState([])
 
-    const [workingArray, setWorkingArray] = useState([]);
-    const [firstGuess, setFirstGuess] = useState("");
-    const [secondGuess, setSecondGuess] = useState("");
+    useEffect(() => setWorkingArray([...array]),[array])
 
-
-
-    const flipTile = (tile) => {
-        const thisTile = workingArray.find((t) => t.id === tile.id);
-        return thisTile.flipped = !thisTile.flipped;
-    }
-    const flipAll = () => {
-        workingArray.map((tile) => {
-            if (!tile.guessed) {
-                return tile.flipped = false;
+    const handleClick = (cardID) => {
+        setWorkingArray(workingArray.map((card) => {
+            if (card.id === cardID) {
+                manageGuesses(card);
+                return {
+                    ...card,
+                    flipped: !card.flipped
+                };
+            } else {
+                return guessArray.length === 2 ? {...card, flipped: false} : card;
             }
-        })
+        }))
     }
-    const clickyClick = (data) => {
 
-        if (!firstGuess) {
-            setFirstGuess(data)
+    const manageGuesses = (card) => {
+        if (guessArray.length < 2) {
+            setGuessArray([...guessArray, card])
+        } else {
+            setGuessArray([card])
         }
-
-        if (firstGuess && !secondGuess) {
-            setSecondGuess(data);
-        }
-
-        if (firstGuess && secondGuess) {
-            flipAll();
-            setFirstGuess(data);
-            setSecondGuess("");
-        }
-    }
-    if ((firstGuess.text === secondGuess.text) && (firstGuess.id !== secondGuess.id)) {
-        const guessedTiles = workingArray.filter((tile) => tile.text === firstGuess.text);
-        guessedTiles.forEach((tile) => tile.guessed = true);
-        setFirstGuess("")
-        setSecondGuess("");
     }
 
     return (
         <>
-            <Grid container>
+            <Grid spacing={1} container>
                 {workingArray.map((data, i) =>
                     <Grid key={i} item>
                         <Tile data={data}
-                              clickyClick={clickyClick}
-                              flipTile={flipTile}
+                              handleClick={handleClick}
                         />
                     </Grid>)}
             </Grid>
