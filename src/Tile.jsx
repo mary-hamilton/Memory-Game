@@ -1,5 +1,4 @@
 import {css} from "@emotion/css"
-import {useState} from "react";
 
 const Tile = ({data, handleClick}) => {
 

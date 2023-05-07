@@ -1,12 +1,10 @@
 import Tile from "./Tile";
 import {Grid} from "@mui/material";
-import {useEffect} from "react";
 
-const TileGrid = ({array, setGuessArray, setWorkingArray, setScore, guessArray, workingArray}) => {
+const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, matchingGuesses}) => {
 
-    useEffect(() => setWorkingArray(array), [array, setWorkingArray])
-    useEffect(() => setScore((guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) ? s => s + 1 : s => s),[guessArray, setScore])
     const handleClick = (cardID) => {
+
         setWorkingArray(workingArray.map((card) => {
             if (card.id === cardID) {
                 manageGuesses(card);
@@ -17,8 +15,9 @@ const TileGrid = ({array, setGuessArray, setWorkingArray, setScore, guessArray, 
             }
             return guessArray.length === 2 ? {...card, flipped: false} : card
         }));
+
         setWorkingArray(wa => wa.map((card) => {
-                if ((guessArray.length === 2) && (guessArray[0].text === guessArray[1].text)) {
+                if (matchingGuesses) {
                     if ((card.id === guessArray[0].id) || (card.id === guessArray[1].id)) {
                         return {
                             ...card,
@@ -43,8 +42,9 @@ const TileGrid = ({array, setGuessArray, setWorkingArray, setScore, guessArray, 
             <Grid spacing={1} container>
                 {workingArray.map((data, i) =>
                     <Grid key={i} item>
-                        <Tile data={data}
-                              handleClick={handleClick}
+                        <Tile
+                            data={data}
+                            handleClick={handleClick}
                         />
                     </Grid>)}
             </Grid>

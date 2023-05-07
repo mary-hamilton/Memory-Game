@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 
 const App = () => {
+
     const randomColour = () => {
         let letters = '0123456789ABCDEF';
         let colour = '#';
@@ -16,7 +17,6 @@ const App = () => {
         return {text, id, flipped: false, guessed: false, colour: randomColour()}
     };
 
-
     const staticArray = ['Egg', 'Rice', 'Cream', 'Honey', 'Salmon', 'Steve', 'Fish', 'Different Egg'];
 
     const setUpGame = (array) => {
@@ -27,32 +27,33 @@ const App = () => {
         return idArray.sort((a, b) => 0.5 - Math.random());
     }
 
-    const [gameArray, setGameArray] = useState([])
     const [guessArray, setGuessArray] = useState([]);
     const [workingArray, setWorkingArray] = useState([]);
     const [score, setScore] = useState(0);
 
-    useEffect(() => setGameArray(setUpGame(staticArray)), [])
+    const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text);
+
+    useEffect(() => setWorkingArray(setUpGame(staticArray)), [setWorkingArray]);
+    useEffect(() => setScore(matchingGuesses ? s => s + 1 : s => s),[matchingGuesses, setScore]);
 
     const handleClick = () => {
-       setGameArray(setUpGame(staticArray));
+       setWorkingArray(setUpGame(staticArray));
     }
 
     return (
         <>
             <h1>My Lovely Game</h1>
             <TileGrid
-                array={gameArray}
                 workingArray={workingArray}
                 setWorkingArray={setWorkingArray}
                 guessArray={guessArray}
                 setGuessArray={setGuessArray}
                 setScore={setScore}
+                matchingGuesses={matchingGuesses}
             />
             <p>{score}</p>
             <Button
                 onClick={handleClick}
-                variant="outline"
             >Reset</Button>
         </>
     );
