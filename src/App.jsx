@@ -2,7 +2,6 @@ import TileGrid from "./TileGrid";
 import {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 import Timer from "./Timer";
-import {logDOM} from "@testing-library/react";
 
 const App = () => {
 
@@ -19,14 +18,16 @@ const App = () => {
         return {text, id, flipped: false, guessed: false, colour: randomColour()}
     };
 
-    const staticArray = ['Egg',
-        // 'Rice',
-        // 'Cream',
-        // 'Honey',
-        // 'Salmon',
+    const staticArray = [
+        'Egg',
+        'Rice',
+        'Cream',
+        'Honey',
+        'Salmon',
         'Steve',
         'Fish',
-        'Different Egg'];
+        'Different Egg'
+    ];
 
     const setUpGame = (array) => {
         setGuessArray([]);
@@ -42,15 +43,13 @@ const App = () => {
     const [score, setScore] = useState(0);
     const [timecount, setTimecount] = useState(0);
 
-
     const uniquePairs = workingArray.length / 2
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text);
-    const newScore = workingArray.filter((card) => card.guessed === true) / 2
 
     useEffect(() => setWorkingArray(setUpGame(staticArray)), [setWorkingArray]);
     useEffect(() => setScore(matchingGuesses ? s => s + 1 : s => s),[matchingGuesses, setScore]);
 
-    useEffect(() => console.log("rerendered"))
+    // useEffect(() => console.log("rerendered"))
 
     const handleClick = () => {
        setWorkingArray(setUpGame(staticArray));
