@@ -1,7 +1,7 @@
 import Tile from "./Tile";
 import {Grid} from "@mui/material";
 
-const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, matchingGuesses}) => {
+const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, matchingGuesses, gameStarted, setGameStarted}) => {
 
     const handleClick = (cardID) => {
 
@@ -27,6 +27,9 @@ const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, mat
                 }
             return card
         }))
+        if (!gameStarted) {
+            setGameStarted(true)
+        }
     }
 
     const manageGuesses = (card) => {

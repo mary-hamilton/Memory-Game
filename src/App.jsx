@@ -42,6 +42,7 @@ const App = () => {
     const [workingArray, setWorkingArray] = useState([]);
     const [score, setScore] = useState(0);
     const [timecount, setTimecount] = useState(0);
+    const [gameStarted, setGameStarted] = useState(false);
 
     const uniquePairs = workingArray.length / 2
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) && (guessArray[0].id !== guessArray[1].id);
@@ -65,6 +66,8 @@ const App = () => {
                 setGuessArray={setGuessArray}
                 setScore={setScore}
                 matchingGuesses={matchingGuesses}
+                gameStarted={gameStarted}
+                setGameStarted={setGameStarted}
             />
             <p>Score: {score}</p>
             <Timer
@@ -72,6 +75,7 @@ const App = () => {
                 setTimecount={setTimecount}
                 score={score}
                 uniquePairs={uniquePairs}
+                gameStarted={gameStarted}
             />
             <Button
                 onClick={handleClick}

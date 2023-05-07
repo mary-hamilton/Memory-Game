@@ -1,11 +1,13 @@
 import {useEffect} from "react";
 
-const Timer = ({timecount, setTimecount, score, uniquePairs}) => {
+const Timer = ({timecount, setTimecount, score, uniquePairs, gameStarted}) => {
 
-    useEffect( () => {
-        const counter = setInterval(() => setTimecount(score === uniquePairs ? t => t : t => t + 1), 1000);
-        return () => clearInterval(counter)
-    }, [setTimecount, score, uniquePairs])
+    if (gameStarted) {
+        useEffect(() => {
+            const counter = setInterval(() => setTimecount(score === uniquePairs ? t => t : t => t + 1), 1000);
+            return () => clearInterval(counter)
+        }, [setTimecount, score, uniquePairs])
+    }
 
 
     return (
