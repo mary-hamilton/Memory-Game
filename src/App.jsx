@@ -44,7 +44,7 @@ const App = () => {
     const [timecount, setTimecount] = useState(0);
 
     const uniquePairs = workingArray.length / 2
-    const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text);
+    const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) && (guessArray[0].id !== guessArray[1].id);
 
     useEffect(() => setWorkingArray(setUpGame(staticArray)), [setWorkingArray]);
     useEffect(() => setScore(matchingGuesses ? s => s + 1 : s => s),[matchingGuesses, setScore]);
