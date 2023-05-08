@@ -29,28 +29,27 @@ const App = () => {
         'Different Egg'
     ];
 
+    const [score, setScore] = useState(0);
+    const [timecount, setTimecount] = useState(0);
+    const [guessArray, setGuessArray] = useState([]);
+    const [gameStarted, setGameStarted] = useState(false);
+
     const setUpGame = (array) => {
         setGuessArray([]);
-        setScore(0);
+        setScore(0)
         setTimecount(0);
+        setGameStarted(false);
         const doubleArray = [...array, ...array];
         const idArray = doubleArray.map((item, i) => makeTileData(item, i));
         return idArray.sort((a, b) => 0.5 - Math.random());
     }
 
-    const [guessArray, setGuessArray] = useState([]);
-    const [workingArray, setWorkingArray] = useState([]);
-    const [score, setScore] = useState(0);
-    const [timecount, setTimecount] = useState(0);
-    const [gameStarted, setGameStarted] = useState(false);
+    const [workingArray, setWorkingArray] = useState(() => setUpGame(staticArray));
 
     const uniquePairs = workingArray.length / 2
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) && (guessArray[0].id !== guessArray[1].id);
 
-    useEffect(() => setWorkingArray(setUpGame(staticArray)), [setWorkingArray]);
     useEffect(() => setScore(matchingGuesses ? s => s + 1 : s => s),[matchingGuesses, setScore]);
-
-    // useEffect(() => console.log("rerendered"))
 
     const handleClick = () => {
        setWorkingArray(setUpGame(staticArray));
