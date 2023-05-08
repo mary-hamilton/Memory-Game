@@ -1,23 +1,21 @@
-import {css} from "@emotion/css"
+import {Typography} from "@mui/material";
+import {backCSS, containerCSS, frontCSS, isFlipped, tileCSS} from "./TileCSS";
 
 const Tile = ({data, handleClick}) => {
 
-    let tileCSS = css`
-      height: 100px;
-      width: 100px;
-      background-color: ${data.colour};
-      border-radius: 5px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `
-
     return (
         <>
-            <div className={tileCSS}
-                onClick={data.guessed ? undefined : () => handleClick(data.id)}>
-                {(data.flipped || data.guessed) &&
-                    <p>{data.text}</p>}
+            <div className={containerCSS}>
+                 <div
+                     className={data.flipped || data.guessed ? isFlipped : tileCSS}
+                     onClick={data.guessed ? undefined : () => handleClick(data.id)}
+                 >
+                     <div className={frontCSS} style={{ backgroundColor: data.colour }}>
+                     </div>
+                     <div className={backCSS}>
+                         <Typography>{data.text}</Typography>
+                     </div>
+                 </div>
             </div>
         </>
     )

@@ -1,6 +1,6 @@
 import TileGrid from "./TileGrid";
 import {useEffect, useState} from "react";
-import {Button} from "@mui/material";
+import {Button, Typography} from "@mui/material";
 import Timer from "./Timer";
 
 const App = () => {
@@ -58,7 +58,7 @@ const App = () => {
 
     return (
         <>
-            <h1>My Lovely Game</h1>
+            <Typography variant="h3" p={2}>My Lovely Game</Typography>
             <TileGrid
                 workingArray={workingArray}
                 setWorkingArray={setWorkingArray}
@@ -69,7 +69,7 @@ const App = () => {
                 gameStarted={gameStarted}
                 setGameStarted={setGameStarted}
             />
-            <p>Score: {score}</p>
+            <Typography>Score: {score}</Typography>
             <Timer
                 timecount={timecount}
                 setTimecount={setTimecount}

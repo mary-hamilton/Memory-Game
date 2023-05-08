@@ -19,10 +19,11 @@ const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, mat
         setWorkingArray(wa => wa.map((card) => {
                 if (matchingGuesses) {
                     if ((card.id === guessArray[0].id) || (card.id === guessArray[1].id)) {
-                        return {
+                        card = {
                             ...card,
                             guessed: true
                         }
+                        return card;
                     }
                 }
             return card
@@ -44,7 +45,9 @@ const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, mat
         <>
             <Grid spacing={1} container>
                 {workingArray.map((data, i) =>
-                    <Grid key={i} item>
+                    <Grid
+                        key={i}
+                        item>
                         <Tile
                             data={data}
                             handleClick={handleClick}

@@ -1,18 +1,16 @@
 import {useEffect} from "react";
+import {Typography} from "@mui/material";
 
 const Timer = ({timecount, setTimecount, score, uniquePairs, gameStarted}) => {
 
-    if (gameStarted) {
         useEffect(() => {
-            const counter = setInterval(() => setTimecount(score === uniquePairs ? t => t : t => t + 1), 1000);
+            const counter = setInterval(() => setTimecount(gameStarted && (score !== uniquePairs) ? t => t + 1 : t => t), 1000);
             return () => clearInterval(counter)
-        }, [setTimecount, score, uniquePairs])
-    }
-
+        }, [setTimecount, score, uniquePairs, gameStarted])
 
     return (
         <>
-            <p>{score === uniquePairs ? `Your final time is: ${timecount} seconds!` : `Time elapsed: ${timecount}`}</p>
+            <Typography>{score === uniquePairs ? `Your final time is: ${timecount} seconds!` : `Time elapsed: ${timecount}`}</Typography>
         </>
     )
 }
