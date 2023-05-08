@@ -43,7 +43,7 @@ const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, mat
 
     return (
         <>
-            <Grid spacing={1} container>
+            <Grid spacing={1} m={2} style={{width: 450}} container>
                 {workingArray.map((data, i) =>
                     <Grid
                         key={i}
@@ -54,6 +54,7 @@ const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, mat
                         />
                     </Grid>)}
             </Grid>
+
         </>
     )
 }
