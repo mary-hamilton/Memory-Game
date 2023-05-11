@@ -2,6 +2,7 @@ import TileGrid from "./TileGrid";
 import {useEffect, useState} from "react";
 import {Button, Typography} from "@mui/material";
 import Timer from "./Timer";
+import Score from "./Score"
 
 const App = () => {
 
@@ -76,6 +77,7 @@ const App = () => {
                 uniquePairs={uniquePairs}
                 gameStarted={gameStarted}
             />
+            <Score workingArray={workingArray}/>
             <Button
                 onClick={handleClick}
             >Reset</Button>

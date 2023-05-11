@@ -3,6 +3,10 @@ import {Grid} from "@mui/material";
 
 const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, matchingGuesses, gameStarted, setGameStarted}) => {
 
+    // useEffect(() => {
+    //     // update the score
+    // }, [workingArray])
+
     const handleClick = (cardID) => {
 
         setWorkingArray(workingArray.map((card) => {
@@ -43,7 +47,7 @@ const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, mat
 
     return (
         <>
-            <Grid spacing={1} container>
+            <Grid spacing={1} style={{width: 450}} container>
                 {workingArray.map((data, i) =>
                     <Grid
                         key={i}

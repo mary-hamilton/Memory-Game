@@ -13,7 +13,7 @@ export const tileCSS = css`
       transform-style: preserve-3d;
       `
 
-export const isFlipped = css`
+export const isFlippedCSS = css`
       height: 100%;
       width: 100%;
       position: relative;
