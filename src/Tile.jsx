@@ -8,7 +8,7 @@ const Tile = ({data, handleClick}) => {
             <div className={containerCSS}>
                  <div
                      className={data.flipped || data.guessed ? isFlippedCSS : tileCSS}
-                     onClick={data.guessed ? undefined : () => handleClick(data.id)}
+                     onClick={data.guessed ? undefined : () => handleClick(data)}
                  >
                      <div className={frontCSS} style={{ backgroundColor: data.colour }}>
                      </div>

@@ -1,6 +1,8 @@
-const Score = ({workingArray}) => {
+import {Typography} from "@mui/material";
+
+const Score = ({score}) => {
     return (
-        <p>The new score is {workingArray.filter((card) => card.guessed === true).length / 2}</p>
+        <Typography>Your score is {score}</Typography>
     )
 }
 

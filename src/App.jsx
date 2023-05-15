@@ -30,14 +30,12 @@ const App = () => {
         'Different Egg'
     ];
 
-    const [score, setScore] = useState(0);
     const [timecount, setTimecount] = useState(0);
     const [guessArray, setGuessArray] = useState([]);
     const [gameStarted, setGameStarted] = useState(false);
 
     const setUpGame = (array) => {
         setGuessArray([]);
-        setScore(0)
         setTimecount(0);
         setGameStarted(false);
         const doubleArray = [...array, ...array];
@@ -49,11 +47,35 @@ const App = () => {
 
     const uniquePairs = workingArray.length / 2
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) && (guessArray[0].id !== guessArray[1].id);
+    const score = workingArray.filter((card) => card.guessed === true).length / 2
 
-    useEffect(() => setScore(matchingGuesses ? s => s + 1 : s => s),[matchingGuesses, setScore]);
+
+    useEffect(() => {
+            setWorkingArray(workingArray.map((card) => {
+                if ((guessArray[0] ? (card.id === guessArray[0].id) : false) || (guessArray[1] ? (card.id === guessArray[1].id) : false)) {
+                    return {
+                        ...card,
+                        flipped: card.flipped === true ? card.flipped : !card.flipped
+                    }
+                }
+                return guessArray.length === 1 ? {...card, flipped: false} : card
+            }));
+
+            setWorkingArray(wa => wa.map((card) => {
+                if (matchingGuesses && card.text === (guessArray[0].text || guessArray[1].text)) {
+                        card = {
+                            ...card,
+                            guessed: true
+                        }
+                        return card;
+                    }
+                return card
+            }))
+        }
+        , [guessArray])
 
     const handleClick = () => {
-       setWorkingArray(setUpGame(staticArray));
+        setWorkingArray(setUpGame(staticArray));
     }
 
     return (
@@ -64,12 +86,11 @@ const App = () => {
                 setWorkingArray={setWorkingArray}
                 guessArray={guessArray}
                 setGuessArray={setGuessArray}
-                setScore={setScore}
                 matchingGuesses={matchingGuesses}
                 gameStarted={gameStarted}
                 setGameStarted={setGameStarted}
             />
-            <Typography>Score: {score}</Typography>
+
             <Timer
                 timecount={timecount}
                 setTimecount={setTimecount}
@@ -77,7 +98,7 @@ const App = () => {
                 uniquePairs={uniquePairs}
                 gameStarted={gameStarted}
             />
-            <Score workingArray={workingArray}/>
+            <Score score={score}/>
             <Button
                 onClick={handleClick}
             >Reset</Button>

@@ -3,45 +3,22 @@ import {Grid} from "@mui/material";
 
 const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, matchingGuesses, gameStarted, setGameStarted}) => {
 
-    // useEffect(() => {
-    //     // update the score
-    // }, [workingArray])
+    const handleClick = (selectedCard) => {
 
-    const handleClick = (cardID) => {
+        manageGuesses(selectedCard);
 
-        setWorkingArray(workingArray.map((card) => {
-            if (card.id === cardID) {
-                manageGuesses(card);
-                return {
-                    ...card,
-                    flipped: !card.flipped
-                }
-            }
-            return guessArray.length === 2 ? {...card, flipped: false} : card
-        }));
-
-        setWorkingArray(wa => wa.map((card) => {
-                if (matchingGuesses) {
-                    if ((card.id === guessArray[0].id) || (card.id === guessArray[1].id)) {
-                        card = {
-                            ...card,
-                            guessed: true
-                        }
-                        return card;
-                    }
-                }
-            return card
-        }))
         if (!gameStarted) {
             setGameStarted(true)
         }
+
+
     }
 
     const manageGuesses = (card) => {
-        if (guessArray.length < 2) {
-            setGuessArray([...guessArray, card])
-        } else {
+        if (guessArray.length === 2) {
             setGuessArray([card])
+        } else {
+            setGuessArray([card, ...guessArray])
         }
     }
 
