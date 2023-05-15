@@ -1,6 +1,6 @@
 import {Typography} from "@mui/material";
 
-const Score = ({score}) => {
+const Score = ({ score }) => {
     return (
         <Typography>Your score is {score}</Typography>
     )

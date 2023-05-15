@@ -5,7 +5,7 @@ export const containerCSS = css`
       width: 100px;
       perspective: 200px;
     `
-export const tileCSS = css`
+export const cardCSS = css`
       height: 100%;
       width: 100%;
       position: relative;

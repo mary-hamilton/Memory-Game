@@ -1,4 +1,4 @@
-import TileGrid from "./TileGrid";
+import CardGrid from "./CardGrid";
 import {useEffect, useState} from "react";
 import {Button, Typography} from "@mui/material";
 import Timer from "./Timer";
@@ -45,34 +45,34 @@ const App = () => {
 
     const [workingArray, setWorkingArray] = useState(() => setUpGame(staticArray));
 
-    const uniquePairs = workingArray.length / 2
+    const maxScore = workingArray.length / 2;
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) && (guessArray[0].id !== guessArray[1].id);
-    const score = workingArray.filter((card) => card.guessed === true).length / 2
+    const score = workingArray.filter((card) => card.guessed === true).length / 2;
 
 
     useEffect(() => {
             setWorkingArray(workingArray.map((card) => {
-                if ((guessArray[0] ? (card.id === guessArray[0].id) : false) || (guessArray[1] ? (card.id === guessArray[1].id) : false)) {
+                if ((guessArray[0] ? card.id === guessArray[0].id : false) || (guessArray[1] ? card.id === guessArray[1].id : false)) {
                     return {
                         ...card,
-                        flipped: card.flipped === true ? card.flipped : !card.flipped
-                    }
+                        flipped: card.flipped ? card.flipped : !card.flipped
+                    };
                 }
-                return guessArray.length === 1 ? {...card, flipped: false} : card
+                return guessArray.length === 1 ? {...card, flipped: false} : card;
             }));
 
             setWorkingArray(wa => wa.map((card) => {
-                if (matchingGuesses && card.text === (guessArray[0].text || guessArray[1].text)) {
+                if (matchingGuesses && card.text === guessArray[0].text) {
                         card = {
                             ...card,
                             guessed: true
                         }
                         return card;
                     }
-                return card
+                return card;
             }))
         }
-        , [guessArray])
+        , [guessArray]);
 
     const handleClick = () => {
         setWorkingArray(setUpGame(staticArray));
@@ -81,12 +81,10 @@ const App = () => {
     return (
         <>
             <Typography variant="h3" p={2}>My Lovely Game</Typography>
-            <TileGrid
+            <CardGrid
                 workingArray={workingArray}
-                setWorkingArray={setWorkingArray}
                 guessArray={guessArray}
                 setGuessArray={setGuessArray}
-                matchingGuesses={matchingGuesses}
                 gameStarted={gameStarted}
                 setGameStarted={setGameStarted}
             />
@@ -95,7 +93,7 @@ const App = () => {
                 timecount={timecount}
                 setTimecount={setTimecount}
                 score={score}
-                uniquePairs={uniquePairs}
+                maxScore={maxScore}
                 gameStarted={gameStarted}
             />
             <Score score={score}/>

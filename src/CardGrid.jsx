@@ -1,7 +1,7 @@
-import Tile from "./Tile";
+import Card from "./Card";
 import {Grid} from "@mui/material";
 
-const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, matchingGuesses, gameStarted, setGameStarted}) => {
+const CardGrid = ({ setGuessArray, guessArray, workingArray, gameStarted, setGameStarted }) => {
 
     const handleClick = (selectedCard) => {
 
@@ -9,28 +9,26 @@ const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, mat
 
         if (!gameStarted) {
             setGameStarted(true)
-        }
-
-
+        };
     }
 
     const manageGuesses = (card) => {
         if (guessArray.length === 2) {
-            setGuessArray([card])
+            setGuessArray([card]);
         } else {
-            setGuessArray([card, ...guessArray])
+            setGuessArray([card, ...guessArray]);
         }
     }
 
     return (
         <>
             <Grid spacing={1} style={{width: 450}} container>
-                {workingArray.map((data, i) =>
+                {workingArray.map((card) =>
                     <Grid
-                        key={i}
+                        key={card.id}
                         item>
-                        <Tile
-                            data={data}
+                        <Card
+                            card={card}
                             handleClick={handleClick}
                         />
                     </Grid>)}
@@ -39,4 +37,4 @@ const TileGrid = ({setGuessArray, setWorkingArray, guessArray, workingArray, mat
     )
 }
 
-export default TileGrid;
+export default CardGrid;
