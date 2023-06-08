@@ -47,7 +47,7 @@ const App = () => {
 
     const maxScore = workingArray.length / 2;
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) && (guessArray[0].id !== guessArray[1].id);
-    const score = workingArray.filter((card) => card.guessed === true).length / 2;
+    const score = workingArray.filter((card) => card.guessed).length / 2;
 
 
     useEffect(() => {

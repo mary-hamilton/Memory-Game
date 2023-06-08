@@ -3,13 +3,13 @@ import {Grid} from "@mui/material";
 
 const CardGrid = ({ setGuessArray, guessArray, workingArray, gameStarted, setGameStarted }) => {
 
-    const handleClick = (selectedCard) => {
+    const handleClick = (card) => {
 
-        manageGuesses(selectedCard);
+        manageGuesses(card);
 
         if (!gameStarted) {
-            setGameStarted(true)
-        };
+            setGameStarted(true);
+        }
     }
 
     const manageGuesses = (card) => {
