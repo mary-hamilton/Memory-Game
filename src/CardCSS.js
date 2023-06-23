@@ -29,6 +29,5 @@ export const frontCSS = css`
     `
 export const backCSS = css`
       background-color: pink;
-      backface-visibility: hidden;
       transform: rotateY(180deg)
     `
