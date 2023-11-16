@@ -46,33 +46,48 @@ const App = () => {
     const [workingArray, setWorkingArray] = useState(() => setUpGame(staticArray));
 
     const maxScore = workingArray.length / 2;
-    const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text) && (guessArray[0].id !== guessArray[1].id);
+    const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text);
     const score = workingArray.filter((card) => card.guessed).length / 2;
 
 
+    // CANNOT WORK OUT HOW TO GET RID OF THIS :'(
     useEffect(() => {
-            setWorkingArray(workingArray.map((card) => {
-                if ((guessArray[0] ? card.id === guessArray[0].id : false) || (guessArray[1] ? card.id === guessArray[1].id : false)) {
-                    return {
-                        ...card,
-                        flipped: card.flipped ? card.flipped : !card.flipped
-                    };
-                }
-                return guessArray.length === 1 ? {...card, flipped: false} : card;
-            }));
+        maintainBoard();
+    }, [guessArray])
 
-            setWorkingArray(wa => wa.map((card) => {
-                if (matchingGuesses && card.text === guessArray[0].text) {
-                        card = {
-                            ...card,
-                            guessed: true
-                        }
-                        return card;
-                    }
-                return card;
-            }))
+    const maintainBoard = () => {
+
+        setWorkingArray(workingArray.map((card) => {
+
+            if (matchingGuesses && card.text === guessArray[0].text) {
+                return {
+                    ...card,
+                    guessed: true
+                }
+            }
+
+            const inGuessArray = guessArray.some(guess => guess.id === card.id);
+
+            if (inGuessArray) {
+                return {
+                    ...card,
+                    flipped: true
+                };
+            }
+
+            // if we've just guessed the first card of a new pair, flip the two previously guessed cards back over
+            return guessArray.length === 1 ? {...card, flipped: false} : card;
+        }));
+    }
+
+    const manageGuesses = (card) => {
+        if (guessArray.length === 2) {
+            setGuessArray([card]);
+        } else {
+            setGuessArray([card, ...guessArray]);
         }
-        , [guessArray]);
+
+    }
 
     const handleClick = () => {
         setWorkingArray(setUpGame(staticArray));
@@ -87,6 +102,8 @@ const App = () => {
                 setGuessArray={setGuessArray}
                 gameStarted={gameStarted}
                 setGameStarted={setGameStarted}
+                manageGuesses={manageGuesses}
+                maintainBoard={maintainBoard}
             />
 
             <Timer

@@ -1,22 +1,15 @@
 import Card from "./Card";
 import {Grid} from "@mui/material";
 
-const CardGrid = ({ setGuessArray, guessArray, workingArray, gameStarted, setGameStarted }) => {
+const CardGrid = ({ setGuessArray, guessArray, workingArray, gameStarted, setGameStarted, manageGuesses, maintainBoard}) => {
 
+    //
     const handleClick = (card) => {
 
         manageGuesses(card);
 
         if (!gameStarted) {
             setGameStarted(true);
-        }
-    }
-
-    const manageGuesses = (card) => {
-        if (guessArray.length === 2) {
-            setGuessArray([card]);
-        } else {
-            setGuessArray([card, ...guessArray]);
         }
     }
 
