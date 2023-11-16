@@ -43,7 +43,10 @@ const App = () => {
                 'x-api-key': API_KEY
             },
             params: {
-                limit: 8
+                limit: 8,
+                // size: 'small',
+                include_breeds: 0,
+                include_categories: 0
             }
         }).then(({ data }) => {
             setImages(data);

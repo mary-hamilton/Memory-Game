@@ -1,5 +1,4 @@
-import {Typography} from "@mui/material";
-import {backCSS, containerCSS, frontCSS, isFlippedCSS, cardCSS} from "./CardCSS";
+import {containerCSS, isFlippedCSS, cardCSS, frontCSS, frontAndBack} from "./CardCSS";
 import {cx} from '@emotion/css'
 
 const Card = ({card, handleClick}) => {
@@ -8,8 +7,6 @@ const Card = ({card, handleClick}) => {
     if (card.flipped || card.guessed) {
         cardClasses.push(isFlippedCSS);
     }
-
-    const frontAndBack = [frontCSS, backCSS];
 
     return (
         <>
@@ -20,8 +17,10 @@ const Card = ({card, handleClick}) => {
                 >
                     <div className={frontCSS} style={{backgroundColor: card.colour}}>
                     </div>
-                    <div className={cx(frontAndBack)}>
-                        <img src={card.image}/>
+                    <div className={cx(frontAndBack)}
+                         style={{
+                             backgroundImage: `url(${card.image})`,
+                         }}>
                     </div>
                 </div>
             </div>
