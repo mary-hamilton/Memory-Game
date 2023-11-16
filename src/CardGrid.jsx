@@ -5,9 +5,7 @@ const CardGrid = ({ setGuessArray, guessArray, workingArray, gameStarted, setGam
 
     //
     const handleClick = (card) => {
-
         manageGuesses(card);
-
         if (!gameStarted) {
             setGameStarted(true);
         }
@@ -15,7 +13,7 @@ const CardGrid = ({ setGuessArray, guessArray, workingArray, gameStarted, setGam
 
     return (
         <>
-            <Grid spacing={1} style={{width: 450}} container>
+            <Grid spacing={1} style={{width: 900}} container>
                 {workingArray.map((card) =>
                     <Grid
                         key={card.id}

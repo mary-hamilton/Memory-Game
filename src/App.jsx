@@ -5,7 +5,7 @@ import Timer from "./Timer";
 import Score from "./Score"
 import axios from "axios";
 
-const API_KEY = "live_z8TA25LKxw0br25WrKZRprYTbjMuMZPobIdQC4gDHMJYGDpnanjO9KSRL2cGTJ6Y";
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 const randomColour = () => {
     let letters = '0123456789ABCDEF';
@@ -17,15 +17,18 @@ const randomColour = () => {
 }
 
 const makeTileData = (image, id) => {
-    // TODO for the love of god refactor these property names
-    // TODO get rid of imageId, you don't need it
-    return {image: image.url, imageId: image.id, id, flipped: false, guessed: false, colour: randomColour()}
+    return {
+        id,
+        image: image.url,
+        imageId: image.id,
+        flipped: false,
+        guessed: false,
+        colour: randomColour()}
 };
 
 const buildArray = (array) => {
     const doubleArray = [...array, ...array];
     const idArray = doubleArray.map((item, id) => {
-        // console.log(item)
         return makeTileData(item, id)
     });
     return idArray.sort((a, b) => 0.5 - Math.random());
@@ -34,6 +37,11 @@ const buildArray = (array) => {
 const App = () => {
 
     const [images, setImages] = useState([]);
+    const [timecount, setTimecount] = useState(0);
+    const [guessArray, setGuessArray] = useState([]);
+    const [gameStarted, setGameStarted] = useState(false);
+    const [workingArray, setWorkingArray] = useState([]);
+    const [loading, setLoading] = useState(true)
 
     const getNewImages = () => {
         axios({
@@ -44,9 +52,9 @@ const App = () => {
             },
             params: {
                 limit: 8,
-                // size: 'small',
                 include_breeds: 0,
-                include_categories: 0
+                include_categories: 0,
+                mime_types: "jpg"
             }
         }).then(({ data }) => {
             setImages(data);
@@ -55,12 +63,6 @@ const App = () => {
             console.log(error);
         })
     }
-
-    const [timecount, setTimecount] = useState(0);
-    const [guessArray, setGuessArray] = useState([]);
-    const [gameStarted, setGameStarted] = useState(false);
-    const [workingArray, setWorkingArray] = useState([]);
-    const [loading, setLoading] = useState(true)
 
     const setUpGame = (array) => {
         setGuessArray([]);
@@ -92,14 +94,14 @@ const App = () => {
 
         setWorkingArray(workingArray.map((card) => {
 
+            const inGuessArray = guessArray.some(guess => guess.id === card.id);
+
             if (matchingGuesses && card.imageId === guessArray[0].imageId) {
                 return {
                     ...card,
                     guessed: true
                 }
             }
-
-            const inGuessArray = guessArray.some(guess => guess.id === card.id);
 
             if (inGuessArray) {
                 return {
@@ -122,7 +124,6 @@ const App = () => {
 
     }
 
-    // Need to work out what is going on here vis a vis api call, are we getting new images, I suspect not
     const handleClick = () => {
         setLoading(true);
         getNewImages();

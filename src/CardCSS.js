@@ -1,9 +1,9 @@
 import {css} from "@emotion/css";
 
 export const containerCSS = css`
-  height: 100px;
-  width: 100px;
-  perspective: 200px;
+  height: 200px;
+  width: 200px;
+  perspective: 400px;
 `
 export const cardCSS = css`
   height: 100%;
