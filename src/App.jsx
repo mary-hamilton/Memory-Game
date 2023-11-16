@@ -17,7 +17,8 @@ const randomColour = () => {
 }
 
 const makeTileData = (image, id) => {
-    // for the love of god refactor these property names
+    // TODO for the love of god refactor these property names
+    // TODO get rid of imageId, you don't need it
     return {image: image.url, imageId: image.id, id, flipped: false, guessed: false, colour: randomColour()}
 };
 
@@ -32,22 +33,9 @@ const buildArray = (array) => {
 
 const App = () => {
 
-
-
-    const staticArray = [
-        'Egg',
-        'Rice',
-        'Cream',
-        'Honey',
-        'Salmon',
-        'Steve',
-        'Fish',
-        'Different Egg'
-    ];
-
     const [images, setImages] = useState([]);
 
-    const getImages = () => {
+    const getNewImages = () => {
         axios({
             method: 'get',
             url: "https://api.thecatapi.com/v1/images/search",
@@ -59,9 +47,7 @@ const App = () => {
             }
         }).then(({ data }) => {
             setImages(data);
-            console.log(data);
-            setWorkingArray(buildArray(data));
-            console.log(workingArray);
+            setLoading(false);
         }).catch((error) => {
             console.log(error);
         })
@@ -70,24 +56,29 @@ const App = () => {
     const [timecount, setTimecount] = useState(0);
     const [guessArray, setGuessArray] = useState([]);
     const [gameStarted, setGameStarted] = useState(false);
+    const [workingArray, setWorkingArray] = useState([]);
+    const [loading, setLoading] = useState(true)
 
     const setUpGame = (array) => {
         setGuessArray([]);
         setTimecount(0);
         setGameStarted(false);
-        return buildArray(array);
-
+        setWorkingArray(buildArray(array));
     }
 
-    const [workingArray, setWorkingArray] = useState([]);
-
     const maxScore = workingArray.length / 2;
-    const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text);
+    const matchingGuesses = (guessArray.length === 2) && (guessArray[0].imageId === guessArray[1].imageId);
     const score = workingArray.filter((card) => card.guessed).length / 2;
 
     useEffect(() => {
-        getImages();
+        getNewImages();
     }, [])
+
+    useEffect(() => {
+        if (images) {
+            setUpGame(images)
+        }
+    }, [images]);
 
     // CANNOT WORK OUT HOW TO GET RID OF THIS :'(
     useEffect(() => {
@@ -128,17 +119,19 @@ const App = () => {
 
     }
 
+    // Need to work out what is going on here vis a vis api call, are we getting new images, I suspect not
     const handleClick = () => {
-        setWorkingArray(setUpGame(images));
+        setLoading(true);
+        getNewImages();
     }
 
-    if (!images.length > 0) {
+    if (loading) {
         return <Typography>Loading cats</Typography>
     }
 
     return (
         <>
-            <Typography variant="h3" p={2}>My Lovely Game</Typography>
+            <Typography variant="h3" p={2}>Flip Them Cats</Typography>
             <CardGrid
                 workingArray={workingArray}
                 guessArray={guessArray}
