@@ -21,7 +21,7 @@ const Card = ({card, handleClick}) => {
                     <div className={frontCSS} style={{backgroundColor: card.colour}}>
                     </div>
                     <div className={cx(frontAndBack)}>
-                        <Typography>{card.text}</Typography>
+                        <img src={card.image}/>
                     </div>
                 </div>
             </div>

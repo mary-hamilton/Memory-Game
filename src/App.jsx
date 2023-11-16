@@ -16,8 +16,9 @@ const randomColour = () => {
     return colour;
 }
 
-const makeTileData = (text, id) => {
-    return {text, id, flipped: false, guessed: false, colour: randomColour()}
+const makeTileData = (image, id) => {
+    // for the love of god refactor these property names
+    return {image: image.url, imageId: image.id, id, flipped: false, guessed: false, colour: randomColour()}
 };
 
 const buildArray = (array) => {
@@ -30,6 +31,8 @@ const buildArray = (array) => {
 }
 
 const App = () => {
+
+
 
     const staticArray = [
         'Egg',
@@ -56,7 +59,9 @@ const App = () => {
             }
         }).then(({ data }) => {
             setImages(data);
-            // console.log(images);
+            console.log(data);
+            setWorkingArray(buildArray(data));
+            console.log(workingArray);
         }).catch((error) => {
             console.log(error);
         })
@@ -74,7 +79,7 @@ const App = () => {
 
     }
 
-    const [workingArray, setWorkingArray] = useState(() => setUpGame(staticArray));
+    const [workingArray, setWorkingArray] = useState([]);
 
     const maxScore = workingArray.length / 2;
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text);
@@ -93,7 +98,7 @@ const App = () => {
 
         setWorkingArray(workingArray.map((card) => {
 
-            if (matchingGuesses && card.text === guessArray[0].text) {
+            if (matchingGuesses && card.imageId === guessArray[0].imageId) {
                 return {
                     ...card,
                     guessed: true
@@ -124,7 +129,7 @@ const App = () => {
     }
 
     const handleClick = () => {
-        setWorkingArray(setUpGame(staticArray));
+        setWorkingArray(setUpGame(images));
     }
 
     if (!images.length > 0) {
