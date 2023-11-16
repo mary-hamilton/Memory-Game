@@ -3,21 +3,33 @@ import {useEffect, useState} from "react";
 import {Button, Typography} from "@mui/material";
 import Timer from "./Timer";
 import Score from "./Score"
+import axios from "axios";
+
+const API_KEY = "live_z8TA25LKxw0br25WrKZRprYTbjMuMZPobIdQC4gDHMJYGDpnanjO9KSRL2cGTJ6Y";
+
+const randomColour = () => {
+    let letters = '0123456789ABCDEF';
+    let colour = '#';
+    for (let i = 0; i < 6; i++) {
+        colour += letters[Math.floor(Math.random() * 16)];
+    }
+    return colour;
+}
+
+const makeTileData = (text, id) => {
+    return {text, id, flipped: false, guessed: false, colour: randomColour()}
+};
+
+const buildArray = (array) => {
+    const doubleArray = [...array, ...array];
+    const idArray = doubleArray.map((item, id) => {
+        // console.log(item)
+        return makeTileData(item, id)
+    });
+    return idArray.sort((a, b) => 0.5 - Math.random());
+}
 
 const App = () => {
-
-    const randomColour = () => {
-        let letters = '0123456789ABCDEF';
-        let colour = '#';
-        for (let i = 0; i < 6; i++) {
-            colour += letters[Math.floor(Math.random() * 16)];
-        }
-        return colour;
-    }
-
-    const makeTileData = (text, id) => {
-        return {text, id, flipped: false, guessed: false, colour: randomColour()}
-    };
 
     const staticArray = [
         'Egg',
@@ -30,6 +42,26 @@ const App = () => {
         'Different Egg'
     ];
 
+    const [images, setImages] = useState([]);
+
+    const getImages = () => {
+        axios({
+            method: 'get',
+            url: "https://api.thecatapi.com/v1/images/search",
+            headers: {
+                'x-api-key': API_KEY
+            },
+            params: {
+                limit: 8
+            }
+        }).then(({ data }) => {
+            setImages(data);
+            // console.log(images);
+        }).catch((error) => {
+            console.log(error);
+        })
+    }
+
     const [timecount, setTimecount] = useState(0);
     const [guessArray, setGuessArray] = useState([]);
     const [gameStarted, setGameStarted] = useState(false);
@@ -38,9 +70,8 @@ const App = () => {
         setGuessArray([]);
         setTimecount(0);
         setGameStarted(false);
-        const doubleArray = [...array, ...array];
-        const idArray = doubleArray.map((item, i) => makeTileData(item, i));
-        return idArray.sort((a, b) => 0.5 - Math.random());
+        return buildArray(array);
+
     }
 
     const [workingArray, setWorkingArray] = useState(() => setUpGame(staticArray));
@@ -49,6 +80,9 @@ const App = () => {
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].text === guessArray[1].text);
     const score = workingArray.filter((card) => card.guessed).length / 2;
 
+    useEffect(() => {
+        getImages();
+    }, [])
 
     // CANNOT WORK OUT HOW TO GET RID OF THIS :'(
     useEffect(() => {
@@ -91,6 +125,10 @@ const App = () => {
 
     const handleClick = () => {
         setWorkingArray(setUpGame(staticArray));
+    }
+
+    if (!images.length > 0) {
+        return <Typography>Loading cats</Typography>
     }
 
     return (
