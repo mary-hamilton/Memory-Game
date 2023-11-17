@@ -15,7 +15,10 @@ const Card = ({card, handleClick}) => {
                     className={cx(cardClasses)}
                     onClick={card.guessed || card.flipped ? undefined : () => handleClick(card)}
                 >
-                    <div className={frontCSS} style={{backgroundColor: card.colour}}>
+                    <div className={frontCSS}
+                         style={{
+                             backgroundColor: card.colour
+                         }}>
                     </div>
                     <div className={cx(frontAndBack)}
                          style={{
