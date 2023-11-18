@@ -50,12 +50,22 @@ const CardGrid = ({ setGuessArray, guessArray, workingArray, setWorkingArray, ga
         }
     }
 
+    // Dynamically size grid and cards based on quantity
+
+    const columns = 12 / Math.sqrt(workingArray.length);
+
     return (
         <>
-            <Grid spacing={1} style={{width: 900}} container>
+            <Grid spacing={1}
+                  style={{
+                      width: `80%`,
+                      minWidth: `55vh`
+            }}
+                  container>
                 {workingArray.map((card) =>
                     <Grid
                         key={card.id}
+                        xs={columns}
                         item>
                         <Card
                             card={card}
