@@ -1,11 +1,12 @@
 import {css, keyframes} from "@emotion/css";
 
 export const scrollContainerCSS = css`
+  
         display: flex;
-        width: 20vh;
-        min-height: 4vh;
+        width: 80%;
+        min-width: 55vh;
+        aspect-ratio: 1/1;
         overflow: hidden;
-        margin: 2vh 0 3vh 3vh;
 `
 
 export const textScroll = keyframes`

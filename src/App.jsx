@@ -1,11 +1,12 @@
 import CardGrid from "./CardGrid";
 import {useEffect, useState} from "react";
-import {Button, Typography} from "@mui/material";
 import Timer from "./Timer";
 import Score from "./Score"
 import axios from "axios";
 import NewGame from "./NewGame";
 import Loading from "./Loading";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -25,7 +26,8 @@ const makeTileData = (image, id) => {
         imageId: image.id,
         flipped: false,
         guessed: false,
-        colour: randomColour()}
+        colour: randomColour()
+    }
 };
 
 const buildArray = (array) => {
@@ -58,7 +60,7 @@ const App = () => {
                 include_categories: 0,
                 mime_types: "jpg"
             }
-        }).then(({ data }) => {
+        }).then(({data}) => {
             setImages(data);
             setLoading(false);
         }).catch((error) => {
@@ -73,6 +75,8 @@ const App = () => {
         setWorkingArray(buildArray(array));
     }
 
+    // Here is a test comment
+
     const maxScore = workingArray.length / 2;
     const score = workingArray.filter((card) => card.guessed).length / 2;
 
@@ -84,7 +88,6 @@ const App = () => {
         if (images) {
             setUpGame(images)
         }
-        console.log(images)
     }, [images]);
 
 
@@ -93,32 +96,31 @@ const App = () => {
         getNewImages(difficulty);
     }
 
-    if (loading) {
-        return <Loading/>
-    }
-
     return (
         <>
-            <Loading/>
-            {/*<Typography variant="h3" p={2}>Flip Them Cats</Typography>*/}
-            {/*<CardGrid*/}
-            {/*    workingArray={workingArray}*/}
-            {/*    setWorkingArray={setWorkingArray}*/}
-            {/*    guessArray={guessArray}*/}
-            {/*    setGuessArray={setGuessArray}*/}
-            {/*    gameStarted={gameStarted}*/}
-            {/*    setGameStarted={setGameStarted}*/}
-            {/*/>*/}
+            <Header/>
+            {
+                loading ?
+                    <Loading/>
+                    :
+                    <CardGrid
+                        workingArray={workingArray}
+                        setWorkingArray={setWorkingArray}
+                        guessArray={guessArray}
+                        setGuessArray={setGuessArray}
+                        gameStarted={gameStarted}
+                        setGameStarted={setGameStarted}
+                    />
+            }
+            <Footer
+                timecount={timecount}
+                setTimecount={setTimecount}
+                score={score}
+                maxScore={maxScore}
+                gameStarted={gameStarted}
+                newGame={newGame}
 
-            {/*<Timer*/}
-            {/*    timecount={timecount}*/}
-            {/*    setTimecount={setTimecount}*/}
-            {/*    score={score}*/}
-            {/*    maxScore={maxScore}*/}
-            {/*    gameStarted={gameStarted}*/}
-            {/*/>*/}
-            {/*<NewGame newGame={newGame}/>*/}
-            {/*<Score score={score}/>*/}
+            />
         </>
     );
 };
