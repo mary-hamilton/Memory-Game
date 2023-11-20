@@ -5,6 +5,7 @@ import Timer from "./Timer";
 import Score from "./Score"
 import axios from "axios";
 import NewGame from "./NewGame";
+import Loading from "./Loading";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -93,30 +94,31 @@ const App = () => {
     }
 
     if (loading) {
-        return <Typography>Loading cats</Typography>
+        return <Loading/>
     }
 
     return (
         <>
-            <Typography variant="h3" p={2}>Flip Them Cats</Typography>
-            <CardGrid
-                workingArray={workingArray}
-                setWorkingArray={setWorkingArray}
-                guessArray={guessArray}
-                setGuessArray={setGuessArray}
-                gameStarted={gameStarted}
-                setGameStarted={setGameStarted}
-            />
+            <Loading/>
+            {/*<Typography variant="h3" p={2}>Flip Them Cats</Typography>*/}
+            {/*<CardGrid*/}
+            {/*    workingArray={workingArray}*/}
+            {/*    setWorkingArray={setWorkingArray}*/}
+            {/*    guessArray={guessArray}*/}
+            {/*    setGuessArray={setGuessArray}*/}
+            {/*    gameStarted={gameStarted}*/}
+            {/*    setGameStarted={setGameStarted}*/}
+            {/*/>*/}
 
-            <Timer
-                timecount={timecount}
-                setTimecount={setTimecount}
-                score={score}
-                maxScore={maxScore}
-                gameStarted={gameStarted}
-            />
-            <NewGame newGame={newGame}/>
-            <Score score={score}/>
+            {/*<Timer*/}
+            {/*    timecount={timecount}*/}
+            {/*    setTimecount={setTimecount}*/}
+            {/*    score={score}*/}
+            {/*    maxScore={maxScore}*/}
+            {/*    gameStarted={gameStarted}*/}
+            {/*/>*/}
+            {/*<NewGame newGame={newGame}/>*/}
+            {/*<Score score={score}/>*/}
         </>
     );
 };
