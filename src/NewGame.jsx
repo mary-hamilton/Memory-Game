@@ -10,8 +10,7 @@ const NewGame = ({ newGame }) => {
         <>
             <Typography>New Game?</Typography>
             <Button onClick={() => handleClick(8)}>Easy</Button>
-            <Button onClick={() => handleClick(18)}>Medium</Button>
-            {/*<Button onClick={() => handleClick(25)}>Hard</Button>*/}
+            <Button onClick={() => handleClick(18)}>Hard</Button>
         </>
     )
 }

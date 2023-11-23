@@ -1,9 +1,32 @@
-import {Typography} from "@mui/material";
+import Card from "./Card";
+import {Box} from "@mui/material";
 
-const Header = () => {
+const Header = ({ workingArray, shuffleArray }) => {
+
+    const title = "CAT FLIPPER";
+    const titleArray = shuffleArray(workingArray.slice(0, title.length));
+
+    //TODO grid it, sort out sizing
+
     return (
         <>
-            <Typography variant="h3" p={2}>Flip Them Cats</Typography>
+            <Box
+                style={{
+                    display: `flex`,
+                    flexDirection: `row`,
+                    height: `8vw`,
+                    width: `100%`,
+                    midWidth: `55vh`,
+                    padding: `2vh`,
+                    gap: `0.5vh`
+                }}
+                >
+        {titleArray.map((card, index) =>
+            <Card
+                card={card}
+                letter={title[index]}
+            />)}
+            </Box>
         </>
     )
 }

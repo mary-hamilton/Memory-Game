@@ -2,7 +2,7 @@ import Card from "./Card";
 import {Grid} from "@mui/material";
 import {useEffect} from "react";
 
-const CardGrid = ({ setGuessArray, guessArray, workingArray, setWorkingArray, gameStarted, setGameStarted}) => {
+const CardGrid = ({ setGuessArray, guessArray, workingArray, setWorkingArray, gameStarted, setGameStarted }) => {
 
     const matchingGuesses = (guessArray.length === 2) && (guessArray[0].imageId === guessArray[1].imageId);
 
@@ -55,13 +55,19 @@ const CardGrid = ({ setGuessArray, guessArray, workingArray, setWorkingArray, ga
     const columns = 12 / Math.sqrt(workingArray.length);
 
     return (
-        <>
-            <Grid spacing={1}
+        <div
+            style={{
+                display: `flex`,
+                alignItems: `center`,
+                justifyContent: `center`
+        }}>
+            <Grid
+                container
+                spacing={1}
                   style={{
                       width: `80%`,
-                      minWidth: `55vh`
-            }}
-                  container>
+                      minWidth: `55vh`,
+            }}>
                 {workingArray.map((card) =>
                     <Grid
                         key={card.id}
@@ -69,11 +75,12 @@ const CardGrid = ({ setGuessArray, guessArray, workingArray, setWorkingArray, ga
                         item>
                         <Card
                             card={card}
+                            playable
                             handleClick={handleClick}
                         />
                     </Grid>)}
             </Grid>
-        </>
+        </div>
     )
 }
 

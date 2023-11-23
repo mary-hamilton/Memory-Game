@@ -1,9 +1,6 @@
 import CardGrid from "./CardGrid";
 import {useEffect, useState} from "react";
-import Timer from "./Timer";
-import Score from "./Score"
 import axios from "axios";
-import NewGame from "./NewGame";
 import Loading from "./Loading";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -35,7 +32,11 @@ const buildArray = (array) => {
     const idArray = doubleArray.map((item, id) => {
         return makeTileData(item, id)
     });
-    return idArray.sort((a, b) => 0.5 - Math.random());
+    return idArray;
+}
+
+const shuffleArray = (array) => {
+    return array.sort((a, b) => 0.5 - Math.random());
 }
 
 const App = () => {
@@ -72,10 +73,8 @@ const App = () => {
         setGuessArray([]);
         setTimecount(0);
         setGameStarted(false);
-        setWorkingArray(buildArray(array));
+        setWorkingArray(shuffleArray(buildArray(array)));
     }
-
-    // Here is a test comment
 
     const maxScore = workingArray.length / 2;
     const score = workingArray.filter((card) => card.guessed).length / 2;
@@ -98,7 +97,10 @@ const App = () => {
 
     return (
         <>
-            <Header/>
+            <Header
+                workingArray={workingArray}
+                shuffleArray={shuffleArray}
+            />
             {
                 loading ?
                     <Loading/>
@@ -119,7 +121,6 @@ const App = () => {
                 maxScore={maxScore}
                 gameStarted={gameStarted}
                 newGame={newGame}
-
             />
         </>
     );
