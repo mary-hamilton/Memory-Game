@@ -2,33 +2,32 @@ import {containerCSS, isFlippedCSS, cardCSS, frontCSS, frontAndBack} from "./Car
 import {cx} from '@emotion/css'
 import {Typography} from "@mui/material";
 
-const Card = ({ card, handleClick, playable, letter }) => {
+const Card = ({card, handleClick, playable, letter, flipped}) => {
 
     const cardClasses = [cardCSS];
-    if (card.flipped || card.guessed) {
+    if (flipped) {
         cardClasses.push(isFlippedCSS);
     }
 
-    const cardFront = playable ?
-                <div className={frontCSS}
-                     style={{
-                         backgroundColor: card.colour
-                     }}>
-                </div>
-            :
-                <div className={frontCSS}
-                     style={{
-                         backgroundColor: card.colour
-                     }}>
-                    <Typography variant="h3">{letter}</Typography>
-                </div>
+    const cardFront = playable
+        ? <div className={frontCSS}
+               style={{
+                   backgroundColor: card.colour
+               }}>
+        </div>
+        : <div className={frontCSS}
+               style={{
+                   backgroundColor: card ? card.colour : `pink`
+               }}>
+            <Typography variant="h3">{letter}</Typography>
+        </div>
 
     return (
         <>
             <div className={containerCSS}>
                 <div
                     className={cx(cardClasses)}
-                    onClick={card.guessed || card.flipped || !playable ? undefined : () => handleClick(card)}
+                    onClick={playable ? () => handleClick(card) : undefined}
                 >
                     {cardFront}
                     <div className={cx(frontAndBack)}

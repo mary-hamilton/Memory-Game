@@ -4,49 +4,21 @@ import axios from "axios";
 import Loading from "./Loading";
 import Header from "./Header";
 import Footer from "./Footer";
+import {randomColour, buildArray, shuffleArray} from "./utilityFunctions";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-
-const randomColour = () => {
-    let letters = '0123456789ABCDEF';
-    let colour = '#';
-    for (let i = 0; i < 6; i++) {
-        colour += letters[Math.floor(Math.random() * 16)];
-    }
-    return colour;
-}
-
-const makeTileData = (image, id) => {
-    return {
-        id,
-        image: image.url,
-        imageId: image.id,
-        flipped: false,
-        guessed: false,
-        colour: randomColour()
-    }
-};
-
-const buildArray = (array) => {
-    const doubleArray = [...array, ...array];
-    const idArray = doubleArray.map((item, id) => {
-        return makeTileData(item, id)
-    });
-    return idArray;
-}
-
-const shuffleArray = (array) => {
-    return array.sort((a, b) => 0.5 - Math.random());
-}
 
 const App = () => {
 
     const [images, setImages] = useState([]);
-    const [timecount, setTimecount] = useState(0);
-    const [guessArray, setGuessArray] = useState([]);
+    const [currentGuesses, setCurrentGuesses] = useState([]);
+    const [guessedPairs, setGuessedPairs] = useState([]);
     const [gameStarted, setGameStarted] = useState(false);
     const [workingArray, setWorkingArray] = useState([]);
     const [loading, setLoading] = useState(true)
+
+    const maxScore = workingArray.length / 2;
+    const score = guessedPairs.length / 2;
 
     const getNewImages = (difficulty) => {
         axios({
@@ -69,29 +41,21 @@ const App = () => {
         })
     }
 
-    const setUpGame = (array) => {
-        setGuessArray([]);
-        setTimecount(0);
-        setGameStarted(false);
-        setWorkingArray(shuffleArray(buildArray(array)));
-    }
-
-    const maxScore = workingArray.length / 2;
-    const score = workingArray.filter((card) => card.guessed).length / 2;
-
     useEffect(() => {
         getNewImages(8);
     }, [])
 
     useEffect(() => {
         if (images) {
-            setUpGame(images)
+            setWorkingArray(shuffleArray(buildArray(images)));
         }
     }, [images]);
 
-
     const newGame = (difficulty) => {
         setLoading(true);
+        setCurrentGuesses([]);
+        setGuessedPairs([]);
+        setGameStarted(false);
         getNewImages(difficulty);
     }
 
@@ -100,23 +64,22 @@ const App = () => {
             <Header
                 workingArray={workingArray}
                 shuffleArray={shuffleArray}
+                randomColour={randomColour}
+                images={images}
             />
-            {
-                loading ?
-                    <Loading/>
-                    :
-                    <CardGrid
-                        workingArray={workingArray}
-                        setWorkingArray={setWorkingArray}
-                        guessArray={guessArray}
-                        setGuessArray={setGuessArray}
-                        gameStarted={gameStarted}
-                        setGameStarted={setGameStarted}
-                    />
+            {loading
+                ? <Loading/>
+                : <CardGrid
+                    workingArray={workingArray}
+                    guessArray={currentGuesses}
+                    setGuessArray={setCurrentGuesses}
+                    guessedPairs={guessedPairs}
+                    setGuessedPairs={setGuessedPairs}
+                    gameStarted={gameStarted}
+                    setGameStarted={setGameStarted}
+                />
             }
             <Footer
-                timecount={timecount}
-                setTimecount={setTimecount}
                 score={score}
                 maxScore={maxScore}
                 gameStarted={gameStarted}

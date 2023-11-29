@@ -1,12 +1,26 @@
 import Card from "./Card";
 import {Box} from "@mui/material";
+import {useEffect, useState} from "react";
 
-const Header = ({ workingArray, shuffleArray }) => {
+const Header = ({
+                    workingArray, shuffleArray, images
+}) => {
+    console.log('Header is rendering');
 
     const title = "CAT FLIPPER";
-    const titleArray = shuffleArray(workingArray.slice(0, title.length));
+    const [ titleArray, setTitleArray ] = useState(title.split(""));
 
-    //TODO grid it, sort out sizing
+    console.log(titleArray);
+    console.log(workingArray);
+
+    //TODO make the title array update once the call to the API has completed!! And make the colours random again
+    //TODO and animate the fuckers
+
+    useEffect(() => {
+        if (workingArray.length > 0) {
+            setTitleArray(shuffleArray(workingArray.slice(0, title.length)))
+        }
+    }, []);
 
     return (
         <>
@@ -23,7 +37,8 @@ const Header = ({ workingArray, shuffleArray }) => {
                 >
         {titleArray.map((card, index) =>
             <Card
-                card={card}
+                key={index}
+                card={card.id ? card : false}
                 letter={title[index]}
             />)}
             </Box>

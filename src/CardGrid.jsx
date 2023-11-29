@@ -2,38 +2,13 @@ import Card from "./Card";
 import {Grid} from "@mui/material";
 import {useEffect} from "react";
 
-const CardGrid = ({ setGuessArray, guessArray, workingArray, setWorkingArray, gameStarted, setGameStarted }) => {
-
-    const matchingGuesses = (guessArray.length === 2) && (guessArray[0].imageId === guessArray[1].imageId);
+const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGuessedPairs, gameStarted, setGameStarted }) => {
 
     useEffect(() => {
-        maintainBoard();
-    }, [guessArray])
-
-    const maintainBoard = () => {
-
-        setWorkingArray(workingArray.map((card) => {
-
-            const inGuessArray = guessArray.some(guess => guess.id === card.id);
-
-            if (matchingGuesses && card.imageId === guessArray[0].imageId) {
-                return {
-                    ...card,
-                    guessed: true
-                }
-            }
-
-            if (inGuessArray) {
-                return {
-                    ...card,
-                    flipped: true
-                };
-            }
-
-            // if we've just guessed the first card of a new pair, flip the two previously guessed cards back over
-            return guessArray.length === 1 ? {...card, flipped: false} : card;
-        }));
-    }
+        if(guessArray.length === 2) {
+            checkForPair();
+        }
+    })
 
     const manageGuesses = (card) => {
         if (guessArray.length === 2) {
@@ -41,13 +16,23 @@ const CardGrid = ({ setGuessArray, guessArray, workingArray, setWorkingArray, ga
         } else {
             setGuessArray([card, ...guessArray]);
         }
-
     }
+
+    const checkForPair = () => {
+        if(guessArray[0].pairId === guessArray[1].pairId) {
+            setGuessedPairs(prev => [...prev, ...guessArray])
+            setGuessArray([]);
+        }
+    }
+
     const handleClick = (card) => {
-        manageGuesses(card);
+        if(guessedPairs.includes(card) || guessArray.includes(card)) {
+            return;
+        }
         if (!gameStarted) {
             setGameStarted(true);
         }
+        manageGuesses(card);
     }
 
     // Dynamically size grid and cards based on quantity
@@ -77,6 +62,7 @@ const CardGrid = ({ setGuessArray, guessArray, workingArray, setWorkingArray, ga
                             card={card}
                             playable
                             handleClick={handleClick}
+                            flipped={guessedPairs.includes(card) || guessArray.includes(card)}
                         />
                     </Grid>)}
             </Grid>
