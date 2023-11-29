@@ -2,16 +2,10 @@ import Card from "./Card";
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
 
-const Header = ({
-                    workingArray, shuffleArray, images
-}) => {
-    console.log('Header is rendering');
+const Header = ({ workingArray, shuffleArray, images, tileColours }) => {
 
     const title = "CAT FLIPPER";
     const [ titleArray, setTitleArray ] = useState(title.split(""));
-
-    console.log(titleArray);
-    console.log(workingArray);
 
     //TODO make the title array update once the call to the API has completed!! And make the colours random again
     //TODO and animate the fuckers
@@ -40,6 +34,7 @@ const Header = ({
                 key={index}
                 card={card.id ? card : false}
                 letter={title[index]}
+                colour={tileColours[index]}
             />)}
             </Box>
         </>

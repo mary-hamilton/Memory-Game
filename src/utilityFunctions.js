@@ -4,7 +4,6 @@ const makeTileData = (image, id) => {
         id,
         image: image.url,
         pairId: image.id,
-        colour: randomColour()
     }
 };
 
@@ -26,4 +25,12 @@ export const randomColour = () => {
         colour += letters[Math.floor(Math.random() * 16)];
     }
     return colour;
+}
+
+export const randomColourArray = (length) => {
+    let colourArray = [];
+    for (let i = 0; i < length; i++) {
+        colourArray.push(randomColour());
+    }
+    return colourArray;
 }

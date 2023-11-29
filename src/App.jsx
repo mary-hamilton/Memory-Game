@@ -4,7 +4,7 @@ import axios from "axios";
 import Loading from "./Loading";
 import Header from "./Header";
 import Footer from "./Footer";
-import {randomColour, buildArray, shuffleArray} from "./utilityFunctions";
+import {randomColour, buildArray, shuffleArray, randomColourArray} from "./utilityFunctions";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -15,8 +15,15 @@ const App = () => {
     const [guessedPairs, setGuessedPairs] = useState([]);
     const [gameStarted, setGameStarted] = useState(false);
     const [workingArray, setWorkingArray] = useState([]);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    const [tileColours, setTileColours] = useState([]);
 
+    const difficulties = {
+        easy: 8,
+        hard: 18,
+    }
+
+    const initialDifficulty = difficulties.easy;
     const maxScore = workingArray.length / 2;
     const score = guessedPairs.length / 2;
 
@@ -43,6 +50,7 @@ const App = () => {
 
     useEffect(() => {
         getNewImages(8);
+        setTileColours(randomColourArray(initialDifficulty * 2))
     }, [])
 
     useEffect(() => {
@@ -56,6 +64,7 @@ const App = () => {
         setCurrentGuesses([]);
         setGuessedPairs([]);
         setGameStarted(false);
+        setTileColours(randomColourArray(difficulty * 2))
         getNewImages(difficulty);
     }
 
@@ -64,7 +73,7 @@ const App = () => {
             <Header
                 workingArray={workingArray}
                 shuffleArray={shuffleArray}
-                randomColour={randomColour}
+                tileColours={tileColours}
                 images={images}
             />
             {loading
@@ -77,6 +86,7 @@ const App = () => {
                     setGuessedPairs={setGuessedPairs}
                     gameStarted={gameStarted}
                     setGameStarted={setGameStarted}
+                    tileColours={tileColours}
                 />
             }
             <Footer
@@ -84,6 +94,7 @@ const App = () => {
                 maxScore={maxScore}
                 gameStarted={gameStarted}
                 newGame={newGame}
+                difficulties={difficulties}
             />
         </>
     );

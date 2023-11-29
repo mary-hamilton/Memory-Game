@@ -2,7 +2,7 @@ import Timer from "./Timer";
 import NewGame from "./NewGame";
 import Score from "./Score";
 
-const Footer = ({ timecount, setTimecount, score, maxScore, gameStarted, newGame }) => {
+const Footer = ({ timecount, setTimecount, score, maxScore, gameStarted, newGame, difficulties }) => {
     return (
         <>
             <Timer
@@ -11,8 +11,12 @@ const Footer = ({ timecount, setTimecount, score, maxScore, gameStarted, newGame
                 score={score}
                 maxScore={maxScore}
                 gameStarted={gameStarted}
+
             />
-            <NewGame newGame={newGame}/>
+            <NewGame
+                newGame={newGame}
+                difficulties={difficulties}
+            />
             <Score score={score}/>
         </>
     )

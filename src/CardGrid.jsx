@@ -2,7 +2,8 @@ import Card from "./Card";
 import {Grid} from "@mui/material";
 import {useEffect} from "react";
 
-const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGuessedPairs, gameStarted, setGameStarted }) => {
+const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGuessedPairs, gameStarted, setGameStarted, tileColours }) => {
+
 
     useEffect(() => {
         if(guessArray.length === 2) {
@@ -63,6 +64,7 @@ const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGu
                             playable
                             handleClick={handleClick}
                             flipped={guessedPairs.includes(card) || guessArray.includes(card)}
+                            colour={tileColours[card.id]}
                         />
                     </Grid>)}
             </Grid>
