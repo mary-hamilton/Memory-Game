@@ -2,19 +2,28 @@ import Card from "./Card";
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
 
-const Header = ({ workingArray, shuffleArray, images, tileColours }) => {
+const Header = ({ workingArray, shuffleArray, tileColours }) => {
 
     const title = "CAT FLIPPER";
     const [ titleArray, setTitleArray ] = useState(title.split(""));
+    const [ flipperThing, setFlipperThing ] = useState(-1)
 
-    //TODO make the title array update once the call to the API has completed!! And make the colours random again
-    //TODO and animate the fuckers
+    //TODO animate the fuckers
 
     useEffect(() => {
         if (workingArray.length > 0) {
             setTitleArray(shuffleArray(workingArray.slice(0, title.length)))
         }
     }, []);
+
+
+    useEffect(() => {
+        let flipInterval = setInterval(() => {
+            setFlipperThing(Math.floor(Math.random() * title.length));
+            setTimeout(() => setFlipperThing(-1), 500)
+        }, 2000);
+        return () => clearInterval(flipInterval)
+    })
 
     return (
         <>
@@ -35,6 +44,8 @@ const Header = ({ workingArray, shuffleArray, images, tileColours }) => {
                 card={card.id ? card : false}
                 letter={title[index]}
                 colour={tileColours[index]}
+                /* work out something better for the flip randomness */
+                flipped={flipperThing % index === 0}
             />)}
             </Box>
         </>

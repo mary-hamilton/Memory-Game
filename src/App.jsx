@@ -4,13 +4,17 @@ import axios from "axios";
 import Loading from "./Loading";
 import Header from "./Header";
 import Footer from "./Footer";
-import {randomColour, buildArray, shuffleArray, randomColourArray} from "./utilityFunctions";
+import {buildArray, shuffleArray, randomColourArray} from "./utilityFunctions";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const App = () => {
 
-    const [images, setImages] = useState([]);
+    // TODO animate header
+    // TODO error handling
+    // TODO styling
+    // TODO colour pallette - minimum limit anything too dark
+
     const [currentGuesses, setCurrentGuesses] = useState([]);
     const [guessedPairs, setGuessedPairs] = useState([]);
     const [gameStarted, setGameStarted] = useState(false);
@@ -22,8 +26,8 @@ const App = () => {
         easy: 8,
         hard: 18,
     }
-
     const initialDifficulty = difficulties.easy;
+
     const maxScore = workingArray.length / 2;
     const score = guessedPairs.length / 2;
 
@@ -41,7 +45,7 @@ const App = () => {
                 mime_types: "jpg"
             }
         }).then(({data}) => {
-            setImages(data);
+            setWorkingArray(shuffleArray(buildArray(data)));
             setLoading(false);
         }).catch((error) => {
             console.log(error);
@@ -49,15 +53,9 @@ const App = () => {
     }
 
     useEffect(() => {
-        getNewImages(8);
+        getNewImages(initialDifficulty);
         setTileColours(randomColourArray(initialDifficulty * 2))
     }, [])
-
-    useEffect(() => {
-        if (images) {
-            setWorkingArray(shuffleArray(buildArray(images)));
-        }
-    }, [images]);
 
     const newGame = (difficulty) => {
         setLoading(true);
@@ -74,7 +72,6 @@ const App = () => {
                 workingArray={workingArray}
                 shuffleArray={shuffleArray}
                 tileColours={tileColours}
-                images={images}
             />
             {loading
                 ? <Loading/>
