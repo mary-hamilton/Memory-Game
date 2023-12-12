@@ -41,12 +41,6 @@ const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGu
     const columns = 12 / Math.sqrt(workingArray.length);
 
     return (
-        <div
-            style={{
-                display: `flex`,
-                alignItems: `center`,
-                justifyContent: `center`
-        }}>
             <Grid
                 container
                 spacing={1}
@@ -68,7 +62,7 @@ const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGu
                         />
                     </Grid>)}
             </Grid>
-        </div>
+        // </div>
     )
 }
 

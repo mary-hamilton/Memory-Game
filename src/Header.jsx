@@ -2,34 +2,24 @@ import Card from "./Card";
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
 
-const Header = ({ workingArray, shuffleArray, tileColours }) => {
+const Header = ({ tileColours, titleArray, title }) => {
 
-    const title = "CAT FLIPPER";
-    const [ titleArray, setTitleArray ] = useState(title.split(""));
-    const [ flipperThing, setFlipperThing ] = useState(-1)
-
-    //TODO animate the fuckers
-
-    useEffect(() => {
-        if (workingArray.length > 0) {
-            setTitleArray(shuffleArray(workingArray.slice(0, title.length)))
-        }
-    }, []);
-
+    const [ randomNumber, setRandomNumber ] = useState(-1)
 
     useEffect(() => {
         let flipInterval = setInterval(() => {
-            setFlipperThing(Math.floor(Math.random() * title.length));
-            setTimeout(() => setFlipperThing(-1), 500)
+            setRandomNumber(Math.floor(Math.random() * title.length));
+            setTimeout(() => setRandomNumber(-1), 500)
         }, 2000);
         return () => clearInterval(flipInterval)
-    })
+    }, [title.length])
 
     return (
         <>
             <Box
                 style={{
                     display: `flex`,
+                    justifyContent: `center`,
                     flexDirection: `row`,
                     height: `8vw`,
                     width: `100%`,
@@ -37,15 +27,14 @@ const Header = ({ workingArray, shuffleArray, tileColours }) => {
                     padding: `2vh`,
                     gap: `0.5vh`
                 }}
-                >
+            >
         {titleArray.map((card, index) =>
             <Card
                 key={index}
-                card={card.id ? card : false}
+                card={card}
                 letter={title[index]}
                 colour={tileColours[index]}
-                /* work out something better for the flip randomness */
-                flipped={flipperThing % index === 0}
+                flipped={randomNumber === index}
             />)}
             </Box>
         </>

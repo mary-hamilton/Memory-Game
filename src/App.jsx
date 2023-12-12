@@ -4,23 +4,26 @@ import axios from "axios";
 import Loading from "./Loading";
 import Header from "./Header";
 import Footer from "./Footer";
-import {buildArray, shuffleArray, randomColourArray} from "./utilityFunctions";
+import {buildArrayFromImages, shuffleArray, randomColourArray} from "./utilityFunctions";
+import {Box} from "@mui/material";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const App = () => {
 
-    // TODO animate header
     // TODO error handling
     // TODO styling
     // TODO colour pallette - minimum limit anything too dark
 
-    const [currentGuesses, setCurrentGuesses] = useState([]);
-    const [guessedPairs, setGuessedPairs] = useState([]);
-    const [gameStarted, setGameStarted] = useState(false);
-    const [workingArray, setWorkingArray] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [tileColours, setTileColours] = useState([]);
+    const title = "CAT FLIPPER";
+
+    const [ currentGuesses, setCurrentGuesses ] = useState([]);
+    const [ guessedPairs, setGuessedPairs ] = useState([]);
+    const [ gameStarted, setGameStarted ] = useState(false);
+    const [ workingArray, setWorkingArray ] = useState([]);
+    const [ loading, setLoading ] = useState(true);
+    const [ tileColours, setTileColours ] = useState([]);
+    const [ titleArray, setTitleArray ] = useState(title.split(""));
 
     const difficulties = {
         easy: 8,
@@ -45,7 +48,8 @@ const App = () => {
                 mime_types: "jpg"
             }
         }).then(({data}) => {
-            setWorkingArray(shuffleArray(buildArray(data)));
+            setWorkingArray(shuffleArray(buildArrayFromImages(data, data.length * 2)));
+            setTitleArray(shuffleArray(buildArrayFromImages(data, title.length)));
             setLoading(false);
         }).catch((error) => {
             console.log(error);
@@ -55,7 +59,7 @@ const App = () => {
     useEffect(() => {
         getNewImages(initialDifficulty);
         setTileColours(randomColourArray(initialDifficulty * 2))
-    }, [])
+    }, [initialDifficulty])
 
     const newGame = (difficulty) => {
         setLoading(true);
@@ -68,10 +72,19 @@ const App = () => {
 
     return (
         <>
+            <Box
+                style={{
+                    flexDirection: `column`,
+                    display: `flex`,
+                    alignItems: `center`,
+                    justifyContent: `center`,
+                    /* add something to make background colour a darker version of one of the random colours */
+                    background: `grey`
+                }}>
             <Header
-                workingArray={workingArray}
-                shuffleArray={shuffleArray}
                 tileColours={tileColours}
+                titleArray={titleArray}
+                title={title}
             />
             {loading
                 ? <Loading/>
@@ -93,6 +106,7 @@ const App = () => {
                 newGame={newGame}
                 difficulties={difficulties}
             />
+            </Box>
         </>
     );
 };

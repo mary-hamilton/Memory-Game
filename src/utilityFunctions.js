@@ -1,15 +1,15 @@
 
-const makeTileData = (image, id) => {
+const makeTileData = (image, index) => {
     return {
-        id,
+        id: index,
         image: image.url,
         pairId: image.id,
     }
 };
 
-export const buildArray = (array) => {
-    const doubleArray = [...array, ...array];
-    return doubleArray.map((item, id) => makeTileData(item, id));
+export const buildArrayFromImages = (images, length) => {
+    const doubleArray = [...images, ...images];
+    return doubleArray.map((image, index) => makeTileData(image, index)).slice(0, length);
 }
 
 export const shuffleArray = (array) => {
