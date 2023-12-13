@@ -6,6 +6,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import {buildArrayFromImages, shuffleArray, randomColourArray} from "./utilityFunctions";
 import {Box} from "@mui/material";
+import randomColor from "randomcolor"
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
@@ -13,23 +14,21 @@ const App = () => {
 
     // TODO error handling
     // TODO styling
-    // TODO colour pallette - minimum limit anything too dark
 
     const title = "CAT FLIPPER";
+    const difficulties = {
+        easy: 8,
+        hard: 18,
+    }
+    const initialDifficulty = difficulties.easy;
 
     const [ currentGuesses, setCurrentGuesses ] = useState([]);
     const [ guessedPairs, setGuessedPairs ] = useState([]);
     const [ gameStarted, setGameStarted ] = useState(false);
     const [ workingArray, setWorkingArray ] = useState([]);
     const [ loading, setLoading ] = useState(true);
-    const [ tileColours, setTileColours ] = useState([]);
+    const [ tileColours, setTileColours ] = useState(randomColourArray(initialDifficulty * 2));
     const [ titleArray, setTitleArray ] = useState(title.split(""));
-
-    const difficulties = {
-        easy: 8,
-        hard: 18,
-    }
-    const initialDifficulty = difficulties.easy;
 
     const maxScore = workingArray.length / 2;
     const score = guessedPairs.length / 2;
@@ -58,7 +57,6 @@ const App = () => {
 
     useEffect(() => {
         getNewImages(initialDifficulty);
-        setTileColours(randomColourArray(initialDifficulty * 2))
     }, [initialDifficulty])
 
     const newGame = (difficulty) => {
@@ -78,8 +76,8 @@ const App = () => {
                     display: `flex`,
                     alignItems: `center`,
                     justifyContent: `center`,
-                    /* add something to make background colour a darker version of one of the random colours */
-                    background: `grey`
+                    /* there has got to be a better way to do this */
+                    // background: `${randomColor({ hue: tileColours[0], luminosity: `dark`, seed: 1})}`
                 }}>
             <Header
                 tileColours={tileColours}

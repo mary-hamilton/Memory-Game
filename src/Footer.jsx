@@ -12,7 +12,6 @@ const Footer = ({timecount, setTimecount, score, maxScore, gameStarted, newGame,
                     display: `flex`,
                     alignItems: `center`,
                     justifyContent: `center`,
-                    background: `grey`
                 }}>
                 <Timer
                     timecount={timecount}
