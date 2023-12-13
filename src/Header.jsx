@@ -1,10 +1,10 @@
 import Card from "./Card";
-import {Box} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 
-const Header = ({ tileColours, titleArray, title }) => {
+const Header = ({tileColours, titleArray, title}) => {
 
-    const [ randomNumber, setRandomNumber ] = useState(-1)
+    const [randomNumber, setRandomNumber] = useState(-1)
 
     useEffect(() => {
         let flipInterval = setInterval(() => {
@@ -28,14 +28,16 @@ const Header = ({ tileColours, titleArray, title }) => {
                     gap: `0.5vh`
                 }}
             >
-        {titleArray.map((card, index) =>
-            <Card
-                key={index}
-                card={card}
-                letter={title[index]}
-                colour={tileColours[index]}
-                flipped={randomNumber === index}
-            />)}
+                {titleArray.map((card, index) =>
+                    <Card
+                        key={index}
+                        card={card}
+                        colour={tileColours[index]}
+                        flipped={randomNumber === index}
+                    >
+                        <Typography variant={"h3"}>{title[index]}</Typography>
+                    </Card>
+                )}
             </Box>
         </>
     )

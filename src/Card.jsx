@@ -2,7 +2,7 @@ import {containerCSS, isFlippedCSS, cardCSS, frontCSS, frontAndBack} from "./Car
 import {cx} from '@emotion/css'
 import {Typography} from "@mui/material";
 
-const Card = ({card, handleClick, playable, letter, flipped, colour}) => {
+const Card = ({card, handleClick, playable, flipped, colour, children}) => {
 
     const cardClasses = [cardCSS];
     if (flipped) {
@@ -17,7 +17,7 @@ const Card = ({card, handleClick, playable, letter, flipped, colour}) => {
                     onClick={playable ? () => handleClick(card) : undefined}
                 >
                     <div className={frontCSS} style={{backgroundColor: colour}}>
-                        {!playable && <Typography variant="h3">{letter}</Typography>}
+                        {children}
                     </div>
                     <div className={cx(frontAndBack)} style={{backgroundImage: `url(${card.image})`,}}>
                     </div>
