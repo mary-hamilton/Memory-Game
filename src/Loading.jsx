@@ -12,10 +12,10 @@ const Loading = () => {
             <div
                 className={cx(scrollContainerCSS)}
                 style={{
-                    width: `80%`,
-                    minWidth: `55vh`
-                }}
-            >
+                    gridColumn: `2 / 3`,
+                    display: "grid",
+                    gap: `0.5rem`,
+                }}>
                 <div
                     className={cx(scrollTextCSS)}
                 >

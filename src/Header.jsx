@@ -1,10 +1,10 @@
 import Card from "./Card";
-import {Box, Typography} from "@mui/material";
+import {Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 
 const Header = ({tileColours, titleArray, title}) => {
 
-    const [randomNumber, setRandomNumber] = useState(-1)
+    const [ randomNumber, setRandomNumber ] = useState(-1)
 
     useEffect(() => {
         let flipInterval = setInterval(() => {
@@ -16,15 +16,13 @@ const Header = ({tileColours, titleArray, title}) => {
 
     return (
         <>
-            <Box
+            <div
                 style={{
-                    display: `flex`,
-                    justifyContent: `center`,
-                    flexDirection: `row`,
-                    height: `8vw`,
+                    gridColumn: `1 / -1`,
+                    display: `grid`,
+                    gridTemplateColumns: `repeat(${title.length}, 1fr)`,
                     width: `100%`,
-                    midWidth: `55vh`,
-                    padding: `2vh`,
+                    minWidth: `38rem`,
                     gap: `0.5vh`
                 }}
             >
@@ -38,7 +36,7 @@ const Header = ({tileColours, titleArray, title}) => {
                         <Typography variant={"h3"}>{title[index]}</Typography>
                     </Card>
                 )}
-            </Box>
+            </div>
         </>
     )
 }

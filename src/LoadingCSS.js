@@ -8,17 +8,16 @@ export const scrollContainerCSS = css`
         aspect-ratio: 1/1;
         overflow: hidden;
 `
-
+// TODO change this to blinking text
 export const textScroll = keyframes`
         from
-        {transform: translateX(-100%)}
+        {transform: translateX(-50%)}
         to
         {transform: translateX(300%)}
     `
 
 export const scrollTextCSS = css`
         font-size: 4vh;
-        animation: ${textScroll} 3s linear infinite;
-        color: inherit;
+        animation: ${textScroll} 5s linear infinite;
     `
 

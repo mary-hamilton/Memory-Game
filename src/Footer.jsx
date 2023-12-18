@@ -1,17 +1,15 @@
 import Timer from "./Timer";
 import NewGame from "./NewGame";
 import Score from "./Score";
-import {Box} from "@mui/material";
 
 const Footer = ({timecount, setTimecount, score, maxScore, gameStarted, newGame, difficulties}) => {
     return (
         <>
-            <Box
+            <div
                 style={{
-                    flexDirection: `row`,
-                    display: `flex`,
-                    alignItems: `center`,
-                    justifyContent: `center`,
+                    gridColumn: `1 / -1`,
+                    display: `grid`,
+                    gridTemplateColumns: `1fr 1fr 2fr`
                 }}>
                 <Timer
                     timecount={timecount}
@@ -21,12 +19,12 @@ const Footer = ({timecount, setTimecount, score, maxScore, gameStarted, newGame,
                     gameStarted={gameStarted}
 
                 />
+                <Score score={score}/>
                 <NewGame
                     newGame={newGame}
                     difficulties={difficulties}
                 />
-                <Score score={score}/>
-            </Box>
+            </div>
         </>
     )
 }

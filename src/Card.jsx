@@ -1,6 +1,5 @@
 import {containerCSS, isFlippedCSS, cardCSS, frontCSS, frontAndBack} from "./CardCSS";
 import {cx} from '@emotion/css'
-import {Typography} from "@mui/material";
 
 const Card = ({card, handleClick, playable, flipped, colour, children}) => {
 

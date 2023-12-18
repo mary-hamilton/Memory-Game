@@ -1,12 +1,20 @@
 import Card from "./Card";
-import {Grid} from "@mui/material";
 import {useEffect} from "react";
 
-const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGuessedPairs, gameStarted, setGameStarted, tileColours }) => {
+const CardGrid = ({
+                      workingArray,
+                      guessArray,
+                      setGuessArray,
+                      guessedPairs,
+                      setGuessedPairs,
+                      gameStarted,
+                      setGameStarted,
+                      tileColours
+                  }) => {
 
 
     useEffect(() => {
-        if(guessArray.length === 2) {
+        if (guessArray.length === 2) {
             checkForPair();
         }
     })
@@ -20,14 +28,14 @@ const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGu
     }
 
     const checkForPair = () => {
-        if(guessArray[0].pairId === guessArray[1].pairId) {
+        if (guessArray[0].pairId === guessArray[1].pairId) {
             setGuessedPairs(prev => [...prev, ...guessArray])
             setGuessArray([]);
         }
     }
 
     const handleClick = (card) => {
-        if(guessedPairs.includes(card) || guessArray.includes(card)) {
+        if (guessedPairs.includes(card) || guessArray.includes(card)) {
             return;
         }
         if (!gameStarted) {
@@ -38,31 +46,28 @@ const CardGrid = ({ workingArray, guessArray, setGuessArray, guessedPairs, setGu
 
     // Dynamically size grid and cards based on quantity
 
-    const columns = 12 / Math.sqrt(workingArray.length);
+    const columns = Math.sqrt(workingArray.length);
 
     return (
-            <Grid
-                container
-                spacing={1}
-                  style={{
-                      width: `80%`,
-                      minWidth: `55vh`,
+        <div
+            style={{
+                gridColumn: `2 / 3`,
+                display: "grid",
+                gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                gap: `0.5rem`,
+                // minWidth: `50rem`,
             }}>
-                {workingArray.map((card) =>
-                    <Grid
-                        key={card.id}
-                        xs={columns}
-                        item>
-                        <Card
-                            card={card}
-                            playable
-                            handleClick={handleClick}
-                            flipped={guessedPairs.includes(card) || guessArray.includes(card)}
-                            colour={tileColours[card.id]}
-                        />
-                    </Grid>)}
-            </Grid>
-        // </div>
+            {workingArray.map((card) =>
+                <Card
+                    key={card.id}
+                    card={card}
+                    playable
+                    handleClick={handleClick}
+                    flipped={guessedPairs.includes(card) || guessArray.includes(card)}
+                    colour={tileColours[card.id]}
+                />
+            )}
+        </div>
     )
 }
 

@@ -5,14 +5,12 @@ import Loading from "./Loading";
 import Header from "./Header";
 import Footer from "./Footer";
 import {buildArrayFromImages, shuffleArray, randomColourArray} from "./utilityFunctions";
-import {Box} from "@mui/material";
-import randomColor from "randomcolor"
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const App = () => {
 
-    // TODO error handling
+    // TODO error handling (error component)
     // TODO styling
 
     const title = "CAT FLIPPER";
@@ -70,12 +68,14 @@ const App = () => {
 
     return (
         <>
-            <Box
+            <div
                 style={{
-                    flexDirection: `column`,
-                    display: `flex`,
+                    display: `grid`,
+                    gridTemplateColumns: `1fr 6fr 1fr`,
+                    gridTemplateRows: `1fr 4fr 1fr`,
                     alignItems: `center`,
                     justifyContent: `center`,
+                    // maxHeight: `80vh`,
                     /* there has got to be a better way to do this */
                     // background: `${randomColor({ hue: tileColours[0], luminosity: `dark`, seed: 1})}`
                 }}>
@@ -104,7 +104,7 @@ const App = () => {
                 newGame={newGame}
                 difficulties={difficulties}
             />
-            </Box>
+            </div>
         </>
     );
 };
